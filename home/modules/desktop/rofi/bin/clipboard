@@ -1,0 +1,23 @@
+#!/bin/sh
+
+MAX_PREVIEW=80
+
+cliphist list | while IFS=$'\t' read -r id preview; do
+    # count the number of lines in this clipboard entry
+    lines=$(cliphist decode "$id" | wc -l)
+    lines=$((lines + 1))  # add 1
+
+    # clean up preview: replace newlines with ↩, compress spaces, truncate
+    clean_preview=$(printf "%s" "$preview" \
+        | tr '\n' '↩' \
+        | sed 's/[[:space:]]\+/ /g' \
+        | cut -c1-"$MAX_PREVIEW")
+
+    # print lines first, then preview, then id
+    printf "%d\t%s\t%s\n" "$lines" "$clean_preview" "$id"
+done \
+| rofi -theme ~/.config/rofi/themes/clipboard.rasi \
+       -dmenu -sync \
+| awk -F'\t' '{print $3}' \
+| cliphist decode \
+| wl-copy
