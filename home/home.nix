@@ -11,7 +11,6 @@
   home.stateVersion = "25.11";
 
   imports = [
-    ./modules/shell.nix
     ./modules/common
     ./modules/desktop
   ];

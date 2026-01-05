@@ -69,6 +69,8 @@ in
     # Input settings
     input = {
       kb_layout = "us";
+      kb_variant = "altgr-intl";
+      kb_options = "lv3:ralt_switch,caps:swapescape";
       follow_mouse = 1;
       touchpad = {
         natural_scroll = false;

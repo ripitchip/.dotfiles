@@ -7,5 +7,6 @@
     ./media
     ./browser
     ./shell
+    ./kb.nix
   ];
 }
