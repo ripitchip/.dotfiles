@@ -10,7 +10,28 @@ let
 in
 {
   programs.kitty.enable = true; # Required for default Hyprland config
-
+  home.packages = with pkgs; [
+    hyprcursor
+    xcur2png
+    clickgen
+    nodejs_24
+    yarn
+    zip
+  ];
+  # home.pointerCursor =
+  #   let
+  #     getLocal = path: name: {
+  #       gtk.enable = true;
+  #       x11.enable = true;
+  #       name = name;
+  #       size = 24;
+  #       package = pkgs.runCommand "banana-cursor-local" { } ''
+  #         mkdir -p $out/share/icons
+  #         cp -r ${path} $out/share/icons/${name}
+  #       '';
+  #     };
+  #   in
+  #   getLocal ./Banana-hyprcursor "Banana-hyprcursor";
   wayland.windowManager.hyprland.enable = true;
 
   wayland.windowManager.hyprland.settings = {
@@ -31,13 +52,21 @@ in
       "wl-paste --watch cliphist store"
     ];
 
+    exec = [
+      "gsettings set org.gnome.desktop.interface color-scheme \"prefer-dark\""
+      "gsettings set org.gnome.desktop.interface gtk-theme \"adw-gtk3-dark\""
+    ];
+
     # Environment variables
     env = [
-      "XCURSOR_SIZE=24"
       "QT_QPA_PLATFORM=wayland"
       "GDK_BACKEND=wayland,x11"
       "XDG_CURRENT_DESKTOP=Hyprland"
       "XDG_SESSION_TYPE=wayland"
+      "XCURSOR_THEME,Banana"
+      # "HYPRCURSOR_THEME,Banana-hyprcursor"
+      "XCURSOR_SIZE,48"
+      # "HYPRCURSOR_SIZE,24"
     ];
 
     # General settings
@@ -60,7 +89,12 @@ in
       };
       # Removed drop_shadow, shadow_range, shadow_render_power
     };
-
+    cursor = {
+      hide_on_touch = true;
+      enable_hyprcursor = false;
+      inactive_timeout = 10;
+      no_hardware_cursors = 0;
+    };
     # Animations
     animations = {
       enabled = true;
@@ -135,8 +169,8 @@ in
       "$mainMod+Shift, 9, movetoworkspace, 9"
       "$mainMod+Shift, Tab, movetoworkspace, previous"
 
-      "$mainMod,       R, exec, $ROFI_MENUS/toggle_rofi $ROFI_MENUS/drun"
-      "$mainMod+Shift, R, exec, $ROFI_MENUS/toggle_rofi $ROFI_MENUS/run"
+      "$mainMod,       D, exec, $ROFI_MENUS/toggle_rofi $ROFI_MENUS/drun"
+      "$mainMod+Shift, D, exec, $ROFI_MENUS/toggle_rofi $ROFI_MENUS/run"
       "$mainMod,       C, exec, $ROFI_MENUS/toggle_rofi $ROFI_MENUS/clipboard"
       "$mainMod+Shift, C, exec, $ROFI_MENUS/toggle_rofi $ROFI_MENUS/icons"
       "$mainMod,       E, exec, $ROFI_MENUS/toggle_rofi $ROFI_MENUS/filebrowser"
