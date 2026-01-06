@@ -29,8 +29,7 @@
     ./modules/xrdp.nix
 
     # Desktop modules
-    ./modules/desktop/ly.nix
-    ./modules/desktop/hyprland
+    ./modules/desktop
     # ./modules/desktop/niri
   ];
 
