@@ -6,7 +6,6 @@
     ./app
     ./cli
     ./fonts
-    ./cursors
     ./programs
   ];
 }

@@ -8,5 +8,6 @@
     ./browser
     ./shell
     ./kb.nix
+    ./communication
   ];
 }
