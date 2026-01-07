@@ -7,5 +7,6 @@
     ./python
     ./docker
     ./git
+    ./virtualisation
   ];
 }

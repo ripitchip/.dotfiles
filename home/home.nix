@@ -15,6 +15,11 @@
     ./modules/desktop
   ];
 
+  # Make Electron apps (like VS Code) prefer Wayland
+  home.sessionVariables = {
+    ELECTRON_OZONE_PLATFORM_HINT = "auto"; # switch to "wayland" to force Wayland
+  };
+
   # XDG directory configuration
   xdg.userDirs = {
     enable = true;
@@ -37,4 +42,19 @@
     ripgrep
     fzf
   ];
+
+  # Add a Wayland-specific VS Code launcher
+  xdg.desktopEntries."code-wayland" = {
+    name = "Visual Studio Code (Wayland)";
+    genericName = "Code Editor";
+    comment = "VS Code using Wayland Ozone platform";
+    exec = "env ELECTRON_OZONE_PLATFORM_HINT=wayland code --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform=wayland";
+    icon = "visual-studio-code";
+    type = "Application";
+    terminal = false;
+    categories = [
+      "Development"
+      "IDE"
+    ];
+  };
 }
