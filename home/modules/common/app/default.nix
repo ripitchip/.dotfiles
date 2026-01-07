@@ -9,5 +9,6 @@
     ./shell
     ./kb.nix
     ./communication
+    ./devTools
   ];
 }
