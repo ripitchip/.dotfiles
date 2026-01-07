@@ -2,6 +2,7 @@
 {
   config,
   pkgs,
+  pkgs-unstable,
   pkgs-zen-browser,
   inputs,
   lib,
@@ -25,6 +26,11 @@
 
   # Pass special args to home-manager
   home-manager.extraSpecialArgs = {
-    inherit inputs pkgs-zen-browser;
+    inherit
+      inputs
+      pkgs
+      pkgs-zen-browser
+      pkgs-unstable
+      ;
   };
 }

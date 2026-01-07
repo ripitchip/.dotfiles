@@ -19,10 +19,7 @@
         home-manager.follows = "home-manager";
       };
     };
-    # niri = {
-    #   url = "github:sodiboo/niri-flake";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+
   };
 
   outputs =
@@ -66,6 +63,11 @@
           };
 
           modules = [
+            (
+              { ... }:
+              {
+              }
+            )
             ./features.nix
             ./nix/configuration.nix
             home-manager.nixosModules.home-manager
