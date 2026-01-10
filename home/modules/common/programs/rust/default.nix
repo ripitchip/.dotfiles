@@ -7,6 +7,7 @@
 
 {
   home.packages = with pkgs; [
-    python313
+    webkitgtk_4_1
+    rustup
   ];
 }

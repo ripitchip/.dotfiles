@@ -7,6 +7,7 @@
 
 {
   home.packages = with pkgs; [
-    python313
+    yaml-language-server
+    prettier
   ];
 }

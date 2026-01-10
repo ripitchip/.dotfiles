@@ -7,6 +7,9 @@
 
 {
   home.packages = with pkgs; [
-    python313
+    lua
+    lua51
+    lua51Packages.luarocks
+    lua51Packages.lua
   ];
 }

@@ -8,9 +8,12 @@
       uris = [ "qemu:///system" ];
     };
   };
+
+  # Optional: Force shell tools to use the system daemon
+  home.sessionVariables = {
+    LIBVIRT_DEFAULT_URI = "qemu:///system";
+  };
   home.packages = with pkgs; [
     vagrant
-    virt-manager
-    qemu
   ];
 }
