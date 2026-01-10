@@ -1,0 +1,1 @@
+require("oh-my-nvim")
