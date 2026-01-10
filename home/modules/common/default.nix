@@ -7,5 +7,6 @@
     ./cli
     ./fonts
     ./programs
+    ./printer
   ];
 }
