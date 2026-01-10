@@ -9,30 +9,24 @@ let
   inherit (lib) mkEnableOption mkIf;
 in
 {
-  programs.kitty.enable = true; # Required for default Hyprland config
+  programs.kitty.enable = true;
   home.packages = with pkgs; [
     hyprcursor
     xcur2png
     clickgen
     nodejs_24
-    yarn
     zip
+    banana-cursor
   ];
-  # home.pointerCursor =
-  #   let
-  #     getLocal = path: name: {
-  #       gtk.enable = true;
-  #       x11.enable = true;
-  #       name = name;
-  #       size = 24;
-  #       package = pkgs.runCommand "banana-cursor-local" { } ''
-  #         mkdir -p $out/share/icons
-  #         cp -r ${path} $out/share/icons/${name}
-  #       '';
-  #     };
-  #   in
-  #   getLocal ./Banana-hyprcursor "Banana-hyprcursor";
+
+  xdg.configFile."wallpaper".source = ./wallpaper;
+
   wayland.windowManager.hyprland.enable = true;
+
+  # Activation du plugin hyprsplit
+  wayland.windowManager.hyprland.plugins = with pkgs; [
+    hyprlandPlugins.hyprsplit
+  ];
 
   wayland.windowManager.hyprland.settings = {
     # Variables
@@ -41,8 +35,8 @@ in
     "$browser" = "zen";
     "$ROFI_MENUS" = "~/.config/rofi/bin";
 
-    # Monitor setup
-    monitor = [ ",preferred,auto,1" ];
+    # Monitor setup - On définit explicitement les positions pour la souris
+    monitor = [ ", preferred, auto, 1" ];
 
     # Startup apps
     exec-once = [
@@ -64,12 +58,9 @@ in
       "XDG_CURRENT_DESKTOP=Hyprland"
       "XDG_SESSION_TYPE=wayland"
       "XCURSOR_THEME,Banana"
-      # "HYPRCURSOR_THEME,Banana-hyprcursor"
       "XCURSOR_SIZE,48"
-      # "HYPRCURSOR_SIZE,24"
     ];
 
-    # General settings
     general = {
       gaps_in = 5;
       gaps_out = 10;
@@ -79,7 +70,6 @@ in
       layout = "dwindle";
     };
 
-    # Decoration
     decoration = {
       rounding = 10;
       blur = {
@@ -87,32 +77,27 @@ in
         size = 3;
         passes = 1;
       };
-      # Removed drop_shadow, shadow_range, shadow_render_power
     };
+
     cursor = {
       hide_on_touch = true;
       enable_hyprcursor = false;
       inactive_timeout = 10;
       no_hardware_cursors = 0;
     };
-    # Animations
+
     animations = {
       enabled = true;
     };
 
-    # Input settings
     input = {
       kb_layout = "us";
       kb_variant = "altgr-intl";
       kb_options = "lv3:ralt_switch,caps:swapescape";
       follow_mouse = 1;
-      touchpad = {
-        natural_scroll = false;
-      };
       sensitivity = 0;
     };
 
-    # Misc settings
     misc = {
       disable_hyprland_logo = true;
       disable_splash_rendering = true;
@@ -120,7 +105,7 @@ in
       key_press_enables_dpms = true;
     };
 
-    # Keybindings
+    # Keybindings mis à jour pour le style DWM (hyprsplit)
     bind = [
       "$mainMod, Return, exec, $term"
       "$mainMod, B, exec, $browser"
@@ -128,53 +113,55 @@ in
       "$mainMod, F, fullscreen,"
       "$mainMod, V, togglefloating,"
 
-      # Vim-style window movement inside workspace
-      "$mainMod, H, movewindow, l"
-      "$mainMod, L, movewindow, r"
-      "$mainMod, J, movewindow, d"
-      "$mainMod, K, movewindow, u"
+      # Focus window (Vim-style)
+      "$mainMod, H, movefocus, l"
+      "$mainMod, L, movefocus, r"
+      "$mainMod, J, movefocus, d"
+      "$mainMod, K, movefocus, u"
 
-      # Vim-style window swap (optional, swaps positions with another window)
-      "$mainMod+Shift, H, swapwindow, l"
-      "$mainMod+Shift, L, swapwindow, r"
-      "$mainMod+Shift, J, swapwindow, d"
-      "$mainMod+Shift, K, swapwindow, u"
+      # Déplacer la fenêtre (Vim-style)
+      "$mainMod+Shift, H, movewindow, l"
+      "$mainMod+Shift, L, movewindow, r"
+      "$mainMod+Shift, J, movewindow, d"
+      "$mainMod+Shift, K, movewindow, u"
 
       "$mainMod+Ctrl, H, resizeactive, -10 0"
       "$mainMod+Ctrl, L, resizeactive, 10 0"
       "$mainMod+Ctrl, J, resizeactive, 0 10"
       "$mainMod+Ctrl, K, resizeactive, 0 -10"
 
-      # Switch to workspace 1-9
-      "$mainMod, 1, workspace, 1"
-      "$mainMod, 2, workspace, 2"
-      "$mainMod, 3, workspace, 3"
-      "$mainMod, 4, workspace, 4"
-      "$mainMod, 5, workspace, 5"
-      "$mainMod, 6, workspace, 6"
-      "$mainMod, 7, workspace, 7"
-      "$mainMod, 8, workspace, 8"
-      "$mainMod, 9, workspace, 9"
-      "$mainMod, Tab, workspace, previous"
+      # Focus Moniteurs (DWM style)
+      "$mainMod, comma, focusmonitor, l"
+      "$mainMod, period, focusmonitor, r"
 
-      # Move focused window to workspace 1-9
-      "$mainMod+Shift, 1, movetoworkspace, 1"
-      "$mainMod+Shift, 2, movetoworkspace, 2"
-      "$mainMod+Shift, 3, movetoworkspace, 3"
-      "$mainMod+Shift, 4, movetoworkspace, 4"
-      "$mainMod+Shift, 5, movetoworkspace, 5"
-      "$mainMod+Shift, 6, movetoworkspace, 6"
-      "$mainMod+Shift, 7, movetoworkspace, 7"
-      "$mainMod+Shift, 8, movetoworkspace, 8"
-      "$mainMod+Shift, 9, movetoworkspace, 9"
-      "$mainMod+Shift, Tab, movetoworkspace, previous"
+      # Switch to local workspace 1-9 (Style DWM : indépendant par écran)
+      "$mainMod, 1, split:workspace, 1"
+      "$mainMod, 2, split:workspace, 2"
+      "$mainMod, 3, split:workspace, 3"
+      "$mainMod, 4, split:workspace, 4"
+      "$mainMod, 5, split:workspace, 5"
+      "$mainMod, 6, split:workspace, 6"
+      "$mainMod, 7, split:workspace, 7"
+      "$mainMod, 8, split:workspace, 8"
+      "$mainMod, 9, split:workspace, 9"
 
+      # Move focused window to local workspace 1-9
+      "$mainMod+Shift, 1, split:movetoworkspace, 1"
+      "$mainMod+Shift, 2, split:movetoworkspace, 2"
+      "$mainMod+Shift, 3, split:movetoworkspace, 3"
+      "$mainMod+Shift, 4, split:movetoworkspace, 4"
+      "$mainMod+Shift, 5, split:movetoworkspace, 5"
+      "$mainMod+Shift, 6, split:movetoworkspace, 6"
+      "$mainMod+Shift, 7, split:movetoworkspace, 7"
+      "$mainMod+Shift, 8, split:movetoworkspace, 8"
+      "$mainMod+Shift, 9, split:movetoworkspace, 9"
+
+      # Menus Rofi
       "$mainMod,       D, exec, $ROFI_MENUS/toggle_rofi $ROFI_MENUS/drun"
       "$mainMod+Shift, D, exec, $ROFI_MENUS/toggle_rofi $ROFI_MENUS/run"
       "$mainMod,       C, exec, $ROFI_MENUS/toggle_rofi $ROFI_MENUS/clipboard"
       "$mainMod+Shift, C, exec, $ROFI_MENUS/toggle_rofi $ROFI_MENUS/icons"
       "$mainMod,       E, exec, $ROFI_MENUS/toggle_rofi $ROFI_MENUS/filebrowser"
-      "$mainMod+Shift, E, exec, $ROFI_MENUS/toggle_rofi $SCRIPTS/bookmarks"
     ];
 
     bindm = [
@@ -182,24 +169,18 @@ in
       "$mainMod, mouse:273, resizewindow"
     ];
   };
+
   services.hyprpaper.enable = true;
-
   services.hyprpaper.settings = {
-    # IPC allows hyprctl to communicate with hyprpaper
     ipc = "on";
-
-    # Disable splash on startup
     splash = false;
-
-    # Preload wallpapers (optional, faster switching)
-    preload = [ "/home/thomas/images/banana.png" ];
-
-    # Assign wallpaper to all monitors
+    preload = [ "/home/thomas/.config/wallpaper/banana.png" ];
     wallpaper = [
-      "DP-7,/home/thomas/images/banana.png"
+      "DP-2,/home/thomas/.config/wallpaper/banana.png"
+      "DP-3,/home/thomas/.config/wallpaper/banana.png"
+      "DP-5,/home/thomas/.config/wallpaper/banana.png"
+      "DP-7,/home/thomas/.config/wallpaper/banana.png"
     ];
-
-    # Scaling mode: fill, fit, stretch, center, tile
     mode = "fill";
   };
 }

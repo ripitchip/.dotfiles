@@ -23,6 +23,7 @@
   # XDG directory configuration
   xdg.userDirs = {
     enable = true;
+    createDirectories = true;
     desktop = "${config.home.homeDirectory}/desktop";
     documents = "${config.home.homeDirectory}/documents";
     download = "${config.home.homeDirectory}/downloads";
@@ -35,26 +36,39 @@
 
   programs.home-manager.enable = true;
 
+  # Dark theme defaults for GTK & Qt
+  gtk = {
+    enable = true;
+    theme = {
+      package = pkgs.adw-gtk3;
+      name = "adw-gtk3-dark";
+    };
+    iconTheme = {
+      package = pkgs.papirus-icon-theme;
+      name = "Papirus-Dark";
+    };
+  };
+
+  qt = {
+    enable = true;
+    platformTheme = "gtk"; # make Qt follow GTK portal/theme where possible
+    style = {
+      package = pkgs.adwaita-qt;
+      name = "adwaita-dark"; # Adwaita-qt style name
+    };
+  };
+
   # Only user packages go here
   home.packages = with pkgs; [
     neovim
     bat
     ripgrep
     fzf
+    kdePackages.okular
   ];
-
-  # Add a Wayland-specific VS Code launcher
-  xdg.desktopEntries."code-wayland" = {
-    name = "Visual Studio Code (Wayland)";
-    genericName = "Code Editor";
-    comment = "VS Code using Wayland Ozone platform";
-    exec = "env ELECTRON_OZONE_PLATFORM_HINT=wayland code --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform=wayland";
-    icon = "visual-studio-code";
-    type = "Application";
-    terminal = false;
-    categories = [
-      "Development"
-      "IDE"
-    ];
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    config.common.default = "*"; # Ensures GTK handles the print dialog
   };
 }
