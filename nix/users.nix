@@ -17,6 +17,11 @@
       "wheel"
       "networkmanager"
       "docker"
+      "libvirtd"
+      "kvm"
+      "scanner"
+      "lp"
+      "lpadmin"
     ];
     shell = pkgs.fish;
   };
