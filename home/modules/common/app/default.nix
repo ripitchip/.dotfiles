@@ -10,5 +10,7 @@
     ./kb.nix
     ./communication
     ./devTools
+    ./hack
+    ./kube
   ];
 }
