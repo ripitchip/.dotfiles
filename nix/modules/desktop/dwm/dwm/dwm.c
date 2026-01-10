@@ -1580,7 +1580,7 @@ void runAutostart(void) {
          "else autorandr --change --default default; fi; "
          "sleep 2; "
          "killall -q dwmblocks; "
-         "feh --scale-down --bg-fill /home/thomas/images/banana.png; "
+         "feh --scale-down --bg-fill /home/thomas/.config/wallpaper/banana.png; "
          "picom -b; "
          "dwmblocks &"
          "clipmenud &"
