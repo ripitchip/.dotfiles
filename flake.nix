@@ -6,10 +6,13 @@
 
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    nixpkgs-staging-next.url = "github:NixOS/nixpkgs/staging-next-25.11";
+
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       inputs = {
@@ -26,6 +29,7 @@
     inputs@{
       nixpkgs,
       nixpkgs-unstable,
+      nixpkgs-staging-next,
       home-manager,
       zen-browser,
       ...
@@ -44,6 +48,12 @@
         inherit system;
         config.allowUnfree = true;
       };
+
+      pkgs-staging-next = import nixpkgs-staging-next {
+        inherit system;
+        config.allowUnfree = true;
+      };
+
       pkgs-zen-browser = import zen-browser {
         inherit system;
       };
@@ -57,6 +67,7 @@
               username
               host
               pkgs-unstable
+              pkgs-staging-next
               pkgs-zen-browser
               inputs
               ;
