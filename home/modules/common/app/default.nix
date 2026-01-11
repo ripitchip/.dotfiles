@@ -12,5 +12,7 @@
     ./devTools
     ./hack
     ./kube
+    ./3dPrinting
+    ./money
   ];
 }
