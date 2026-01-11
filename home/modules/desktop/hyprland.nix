@@ -17,6 +17,10 @@ in
     nodejs_24
     zip
     banana-cursor
+    gtk3
+    libnotify
+    libadwaita
+    steam-run
   ];
 
   xdg.configFile."wallpaper".source = ./wallpaper;
