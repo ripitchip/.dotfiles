@@ -9,8 +9,8 @@
   programs.git = {
     enable = true;
     settings.user = {
-      name = "thomas";
-      email = "thomas@example.com";
+      name = "ripitchip";
+      email = "thomas@foobarbaz.fr";
     };
   };
   home.packages = with pkgs; [
