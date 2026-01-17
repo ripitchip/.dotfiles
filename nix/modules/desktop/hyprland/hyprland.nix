@@ -35,6 +35,7 @@ in
       firefox
       hyprpicker
       hyprpaper
+      xorg.xhost
     ];
     programs.thunar.enable = true;
   };

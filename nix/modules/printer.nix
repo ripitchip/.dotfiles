@@ -24,18 +24,18 @@
   };
 
   # Declarative Printer Setup
-  hardware.printers = {
-    ensurePrinters = [
-      {
-        name = "Epson_WF7835";
-        location = "Home";
-        deviceUri = "ipp://192.168.1.58/ipp/print";
-        model = "everywhere";
-        ppdOptions = {
-          PageSize = "A4";
-        };
-      }
-    ];
-    ensureDefaultPrinter = "Epson_WF7835";
-  };
+  # hardware.printers = {
+  #   ensurePrinters = [
+  #     {
+  #       name = "Epson_WF7835";
+  #       location = "Home";
+  #       deviceUri = "ipp://192.168.1.58/ipp/print";
+  #       model = "everywhere";
+  #       ppdOptions = {
+  #         PageSize = "A4";
+  #       };
+  #     }
+  #   ];
+  #   ensureDefaultPrinter = "Epson_WF7835";
+  # };
 }
