@@ -1,17 +1,18 @@
 {
   config,
   pkgs,
+  pkgs-unstable,
   lib,
   ...
 }:
 
 let
-  vscodeExtensions = with pkgs.vscode-extensions; [
+  vscodeExtensions = with pkgs-unstable.vscode-extensions; [
     # Nix
     bbenoist.nix
     jnoortheen.nix-ide
     brettm12345.nixfmt-vscode
-
+    mechatroner.rainbow-csv
     # Python
     ms-python.python
 
@@ -19,6 +20,8 @@ let
     ms-azuretools.vscode-docker
     ms-vscode-remote.remote-ssh
     ms-vscode-remote.remote-containers
+    hashicorp.terraform
+
   ];
 
   # Flake paths relative to this flake
@@ -31,7 +34,7 @@ in
   nixpkgs.config.allowUnfree = true;
   programs.vscode = {
     enable = true;
-    package = pkgs.vscode; # FHS wrapper
+    package = pkgs-unstable.vscode; # FHS wrapper
     mutableExtensionsDir = true;
 
     profiles.default = {
