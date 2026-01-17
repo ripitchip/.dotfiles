@@ -183,6 +183,7 @@ in
       "DP-2,/home/thomas/.config/wallpaper/banana.png"
       "DP-3,/home/thomas/.config/wallpaper/banana.png"
       "DP-5,/home/thomas/.config/wallpaper/banana.png"
+      "DP-6,/home/thomas/.config/wallpaper/banana.png"
       "DP-7,/home/thomas/.config/wallpaper/banana.png"
     ];
     mode = "fill";
