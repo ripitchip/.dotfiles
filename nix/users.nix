@@ -17,6 +17,7 @@
       "wheel"
       "networkmanager"
       "docker"
+      "disk"
       "libvirtd"
       "kvm"
       "scanner"
